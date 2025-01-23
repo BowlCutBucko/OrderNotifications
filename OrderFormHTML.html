@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Form</title>
+</head>
+<body>
+  <h1>Place Your Order</h1>
+  <form id="orderForm">
+    <label for="name">Your Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="productName">Product Name:</label><br>
+    <input type="text" id="productName" name="productName" required><br><br>
+
+    <label for="productColor">Product Color:</label><br>
+    <input type="text" id="productColor" name="productColor" required><br><br>
+
+    <label for="amount">Amount:</label><br>
+    <input type="number" id="amount" name="amount" required min="1"><br><br>
+
+    <button type="submit">Submit Order</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    const webhookURL = https://discord.com/api/webhooks/1331789686418575380/feeAFgUdCOdHN1_ax5tQlMgA3bQHrHJRUvRUkm69sfS6Tow2h0KYJM9MRc_FhHCgp5d6; // Replace this with your webhook URL
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const productName = document.getElementById('productName').value;
+      const productColor = document.getElementById('productColor').value;
+      const amount = document.getElementById('amount').value;
+
+      const payload = {
+        content: `**New Order Received!**\n\n**Name:** ${name}\n**Product Name:** ${productName}\n**Product Color:** ${productColor}\n**Amount:** ${amount}`
+      };
+
+      try {
+        await fetch(webhookURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        alert('Order submitted successfully!');
+        form.reset();
+      } catch (error) {
+        console.error('Error sending order to Discord:', error);
+        alert('There was an error submitting your order. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>
